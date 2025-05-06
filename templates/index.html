@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Query Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Query Assistant</h1>
+        <form id="pdf-form" method="POST" enctype="multipart/form-data" action="/pdf">
+            <label for="pdf">Upload PDF:</label>
+            <input type="file" id="pdf" name="pdf" accept=".pdf" required>
+            <button type="submit">Upload PDF</button>
+        </form>
+        <form id="query-form" method="POST" enctype="multipart/form-data" action="/query">
+            <label for="query">Enter your question:</label>
+            <input type="text" id="query" name="query" placeholder="Type your question here..." required>
+            <button type="submit">Get Answer</button>
+        </form>
+        <div id="response">
+            <h2>Response:</h2>
+            <pre id="answer"></pre>
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById("query-form");
+        const pdf_form = document.getElementById("pdf-form");
+        
+        const responseDiv = document.getElementById("response");
+        const answerP = document.getElementById("answer");
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            answerP.textContent = "Waiting for Answer...";
+            const response = await fetch("/query", {
+                method: "POST",
+                body: formData,
+            });
+            const result = await response.json();
+            if (result.answer) {
+                answerP.textContent = result.answer;
+            } else if (result.error) {
+                answerP.textContent = `Error: ${result.error}`;
+            }
+            responseDiv.style.display = "pre";
+        };
+
+        pdf_form.onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(pdf_form);
+            answerP.textContent = "Uploading...";
+            const response = await fetch("/pdf", {
+                method: "POST",
+                body: formData,
+            });
+            const result = await response.json();
+            if (result.file) {
+                answerP.textContent = "File Upload Done : " + result.file;
+            } else if (result.error) {
+                answerP.textContent = `Error: ${result.error}`;
+            }
+            responseDiv.style.display = "pre";
+        };
+    </script>
+</body>
+</html>
