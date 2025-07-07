@@ -27,7 +27,6 @@
    ```
 
 4. **(Optional) Download or place any required model files or data in the `pdf/` directory.**
-   - _Note: Large model files are not included in the repository. Download instructions or links should be provided separately if needed._
 
 ### Running the Chatbot
 
