@@ -52,10 +52,10 @@ _Or specify the actual entry point for the web UI._
 #### Example Conversation
 
 
-User: Hello!
-Bot: Hi there! How can I assist you today?
-User: Can you recommend a good book?
-Bot: Sure! What genre are you interested in?
+User: Hello!<br/>
+Bot: Hi there! How can I assist you today?<br/>
+User: Can you recommend a good book?<br/>
+Bot: Sure! What genre are you interested in?<br/>
 
 
 
